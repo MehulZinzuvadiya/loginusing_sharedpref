@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loginusing_sharedpref/Utils/SharedPrefrence.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -9,6 +10,10 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController txtname = TextEditingController();
+  TextEditingController txt_email = TextEditingController();
+  TextEditingController txt_password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,16 +41,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 30.0),
                   TextFormField(
-                    decoration: const InputDecoration(
+                    controller: txtname,
+                    decoration: InputDecoration(
                       hintText: 'Full Name',
+                      filled: true,
                       prefixIcon: Icon(
                         Icons.person,
-                        color: Colors.brown,
+                        color: Colors.brown.shade700,
                       ),
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Colors.brown,
+                          color: Colors.white,
+                          width: 1,
                         ),
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
@@ -55,19 +63,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 20.0),
                   TextFormField(
-                    decoration: const InputDecoration(
+                    controller: txt_email,
+                    decoration: InputDecoration(
                       hintText: 'Email',
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: Colors.brown.shade700,
+                      ),
                       border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20.0),
                   TextFormField(
+                    controller: txt_password,
                     obscureText: true,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Password',
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.brown.shade700,
+                      ),
                       border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20.0),
@@ -76,6 +110,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       backgroundColor: Colors.brown.shade500,
                     ),
                     onPressed: () {
+
+                      var email = txt_email.text;
+                      var password = txt_password.text;
+
+                      SharedPrefDemo pref = SharedPrefDemo();
+                      pref.createPref(email, password);
                       Navigator.pop(context);
                     },
                     child: const Text('REGISTER'),
@@ -88,15 +128,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         'Already have an account? ',
                         style: TextStyle(
                           color: Colors.black,
+                          fontSize: 18,
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
-                        child: const Text(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
                           'Sign In',
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.deepPurple.shade700,
                             fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
                       ),

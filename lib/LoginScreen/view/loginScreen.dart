@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loginusing_sharedpref/Utils/SharedPrefrence.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,6 +10,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController user_email = TextEditingController();
+  TextEditingController user_password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,10 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   TextField(
+                    controller: user_email,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       filled: true,
-                      prefixIcon: const Icon(Icons.email),
+                      prefixIcon:  Icon(Icons.email,color: Colors.brown.shade700,),
                       fillColor: Colors.white.withOpacity(0.8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -48,11 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    controller: user_password,
                     obscureText: true,
                     decoration: InputDecoration(
-                      hintText: 'Password',
-                      prefixIcon: const Icon(Icons.lock),
                       filled: true,
+                      hintText: 'Password',
+                      prefixIcon:  Icon(Icons.lock,color: Colors.brown.shade700,),
                       fillColor: Colors.white.withOpacity(0.8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -64,8 +70,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 20,
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, 'signUp');
+                      onPressed: () async {
+                        String userEmail = user_email.text;
+                        String userPassword = user_password.text;
+
+                        SharedPrefDemo pref = SharedPrefDemo();
+                        Map m1 = await pref.readPref();
+                        print("${m1['e1']}=${m1['p1']}");
+
+                        //Compare Data of user and pref
+
+                        if (userEmail == m1['e1'] && userPassword == m1['p1'])
+                          Navigator.pushNamed(context, 'home');
+                        else
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Invalid Credentials")));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.brown.shade500,
@@ -87,11 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
-                        child: const Text(
+                        onTap: () {
+                          Navigator.pushNamed(context, 'signUp');
+                        },
+                        child: Text(
                           'Sign Up',
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.deepPurple.shade700,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
