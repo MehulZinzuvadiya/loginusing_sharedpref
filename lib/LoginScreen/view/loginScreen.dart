@@ -43,7 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       hintText: 'Email',
                       filled: true,
-                      prefixIcon:  Icon(Icons.email,color: Colors.brown.shade700,),
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: Colors.brown.shade700,
+                      ),
                       fillColor: Colors.white.withOpacity(0.8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -58,7 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       filled: true,
                       hintText: 'Password',
-                      prefixIcon:  Icon(Icons.lock,color: Colors.brown.shade700,),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.brown.shade700,
+                      ),
                       fillColor: Colors.white.withOpacity(0.8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -80,11 +86,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         //Compare Data of user and pref
 
-                        if (userEmail == m1['e1'] && userPassword == m1['p1'])
+                        if (userEmail == m1['e1'] && userPassword == m1['p1']) {
+                          pref.createPref(user_email.text, user_password.text, true);
                           Navigator.pushNamed(context, 'home');
-                        else
+                        } else if (userEmail != m1['e1']) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Invalid email!!")));
+                        } else if (userPassword != m1['p1']) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Invalid Password!")));
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("Invalid Credentials")));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.brown.shade500,

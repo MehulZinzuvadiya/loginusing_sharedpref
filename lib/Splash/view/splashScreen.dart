@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:loginusing_sharedpref/Utils/SharedPrefrence.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -11,22 +12,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Timer(
-      Duration(
-        seconds: 3,
-      ),
-      () => Navigator.pushReplacementNamed(context, 'login'),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    checkLogin();
     return SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.brown.shade100,
+      backgroundColor: Colors.brown.shade100,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -48,5 +38,21 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     ));
+  }
+
+  Future<void> checkLogin() async {
+    SharedPrefDemo spref = SharedPrefDemo();
+    Map map = await spref.readPref();
+    if (map['isLogin'] == true) {
+      Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacementNamed(context, 'home'),
+      );
+    } else {
+      Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacementNamed(context, 'login'),
+      );
+    }
   }
 }

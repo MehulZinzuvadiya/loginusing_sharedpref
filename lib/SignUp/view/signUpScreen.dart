@@ -110,12 +110,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       backgroundColor: Colors.brown.shade500,
                     ),
                     onPressed: () {
-
                       var email = txt_email.text;
                       var password = txt_password.text;
 
                       SharedPrefDemo pref = SharedPrefDemo();
-                      pref.createPref(email, password);
+                      pref.createPref(email, password, false);
                       Navigator.pop(context);
                     },
                     child: const Text('REGISTER'),
