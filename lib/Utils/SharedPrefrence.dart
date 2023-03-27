@@ -21,4 +21,6 @@ class SharedPrefDemo {
     SharedPreferences spref = await SharedPreferences.getInstance();
     spref.clear();
   }
+
+
 }
